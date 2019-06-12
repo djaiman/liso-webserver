@@ -1,19 +1,13 @@
 \label{sec:liso}
-Your server will implement HEAD, GET (both needed for HTTP 1.1 general purpose
-server compliance), and POST.  This should comply with the
-specification in the RFC~\cite{httprfc}.  After this we will move on into
-implementing TLS, and finally CGI.
 
-%% We will fill out this section on the exact portions of the specification---for
-%% example what commands may appear and should be supported in request
-%% headers---immediately following Checkpoint 1 submission.
+In this section, we describe the complete requiresments for the Liso server: what you will turn in at the final checkpoint. 
+To develop Liso, we will provide you with starter code on the course website and in Autolab. 
+Then, in the next three sections (\S\ref{sec:cp1}--\ref{sec:cp3}), we break the project into a development strategy with intermediate checkpoints to turn the starter code into a working server.
 
-%% In addition, we will provide a lot more guidance on implementing TLS and CGI in
-%% the coming weeks.  Look for frequent updates to this document and the supporting
-%% code---we will announce major updates.
-\vspace{0.25in}
 
 \subsection{Supporting HTTP 1.1}
+You will find in RFC 2616 that there are many HTTP methods: commands that a client sends to a server.
+Liso will only support three methods:
 
 \begin{itemize}
 \item \textbf{GET} -- requests a specified resource; it should not have any
@@ -25,44 +19,62 @@ implementing TLS, and finally CGI.
                        expected
 \end{itemize}
 
-For all other commands, your server must return ``501 Method Unimplemented.'' If
+\noindent{\bf Error Messages:}
+For all other commands, your server must return ``501 Method Unimplemented.'' 
+If
 you are unable to implement one of the above commands (perhaps you ran out of
 time), your server must return the error response ``501 Method Unimplemented,''
-rather than failing silently (or not so silently).  While you develop, you
-may want to just return this error response always until features are
-implemented---no matter what you will have a valid HTTP 1.1 server!
+rather than failing silently (or not so silently).  
 
+\vspace{5pt}
+
+\noindent{\bf Robustness:} As a public server, your implementation should be
+robust to client errors. 
+Even if the client sends malformed inputs or breaks off the connection mid-request, your server should never crash.
+For example, your server must not
+overflow any buffers when a malicious client sends a message that is ``too long." 
+The starter code we will provide you is not robust to malformed requests (e.g, it cannot handle requests which do not have proper [CR][LF] line endings) and so you will have to extend it.
+
+\vspace{5pt}
+
+\noindent{\bf Multiple Requests:} During a given connection, a client may send multiple HEAD/GET/POST requests.
+The client may even send multiple requests back-to-back, without even waiting for a response.
+This is called `HTTP pipelining'~\cite{pipelining}. Your server must support multiple requests in the same connection, and it must support HTTP pipelining.
+
+\subsection{Supporting Many Clients}
 Your server should be able to support multiple clients concurrently. The only
 limit to the number of concurrent clients should be the number of available
 file descriptors in the operating system (the min of ulimit -n and
-FD\_SETSIZE---both typically 1024). We will not be testing beyond 1024 concurrent connections. While the server is waiting for a client to
+FD\_SETSIZE---both typically 1024 but it may be higher or lower).  
+
+
+While the server is waiting for a client to
 send the next command, it should be able to handle inputs from other clients.
-Also, your server should not hang if a client sends only a partial request.
+Clients may `stall' (send half of a request and then stall before sending the rest) or cause errors; these problems should not harm other concurrent users.
+For example, if a client only sends half of a request and stalls, your server should move on to serving another client.
 In general, concurrency can be achieved using either \texttt{select()} or
 multiple threads. However, in this project, you \textbf{must implement your
 server using \texttt{select()} to support concurrent connections}. Threads are
-\textbf{NOT} permitted at all for the project.  See the resources section below
-for help on these topics.  As a public server, your implementation should be
-robust to client errors. For example, your server should be able to handle
-malformed requests which do not have proper [CR][LF] line endings. The provided lex and yacc parser is not robust to these malformed requests and you are expected to add the necessary rules if you decide to go-ahead and use the provided parser. For example, it must not
-overflow any buffers when a malicious client sends a message that is ``too long." These are some things we will test for.
-
-You are implementing a \emph{real}, standards-compliant web server.  Therefore,
-comparing protocol exchanges to existing web servers is both valid and
-encouraged.  Install Apache~\cite{apache}, install Wireshark~\cite{wireshark}, and
-sniff the protocol exchanges and compare them to your own---even use captured web
-browser requests to replay from files you save as input to your implementation
-of Liso. Come up with other create ways to test as well as there is a portion of the grade reserved for testing.
-
-To aid you in programming, and testing, we have prepared a starter package available in the Autolab handout.  It contains the starter code for an echo server and HTTP parser. This code needs to be modified to use select() as well as adding support for multiple clients at once. Also, the parsing rules need to be enhanced to support the RFC specification~\cite{httprfc}. Additional information can be found in the checkpoint details Section~\ref{sec:c1}. 
+\textbf{NOT} permitted at all for the project. 
 
 \subsection{HTTPS and CGI}
-In Checkpoint 3 you will extend your basic Liso server with support for HTTPS and CGI.  You will use the OpenSSL library for HTTPS support.  Specially, you will wrap communication calls with with SSL wrapping functions that will encrypt data sent over the channel and authenticate the server based on a certificate.  The details of how this works will be covered later in the course when we talk about network security.  In order to test HTTPS, you will need to get a certificate that your HTTPS-enabled server can use to authenticate itself to clients.  The details are explained later in Section~\ref{sec:c3}.
+In Checkpoint 3 you will extend your basic Liso server with support for HTTPS (which encrypts connections to your server) and CGI (which allows your server to support interactive programs).  
 
-The Common Gateway Interface (CGI) provides a standard interface that allows a web server to call other servers.  Web servers use this typically to generate dynamic content, i.e., the content that is generated is based on input provided by the client (using POST) or other client-specific information.  More information on this part of the project is also provided in Section~\ref{sec:c3}.
+\vspace{5pt}
 
+\noindent{\bf HTTPS Support:}
+Your server will use the OpenSSL library for HTTPS support.  Specially, you will wrap communication calls with with SSL wrapping functions that will encrypt data sent over the channel and authenticate the server based on a certificate.  
+In order to test HTTPS, you will need to get a certificate that your HTTPS-enabled server can use to authenticate itself to clients.  
+
+\noindent{\bf CGI Support:} The Common Gateway Interface (CGI) provides a standard interface that allows a web server to call other processes or servers.  Web servers use this typically to generate dynamic content, i.e., the content that is generated is based on input provided by the client (using POST) or other client-specific information. 
+Your server will support CGI requests and will provide a built in `ASCII art generator' as a demo application.
+When a client submits a POST to the ASCII art generator, the server will generate a page that spells out client-specified phrase in ASCII art.
+
+\vspace{5pt}
+
+\noindent More details on HTTPS and CGI are in \S\ref{sec:cp3}.
 \subsection{Command Line Arguments}
-\noindent\textbf{Liso will always have 8 arguments---functional or not. You may ignore many of them in the initial checkpoints.}\\
+\noindent\textbf{Liso will always have 8 arguments. You may not modify Liso to, e.g., take 4 arguments or to reorder the arguments. If you don't need one of the arguments in the earlier checkpoints, you may simply ignore it in your code.}\\
 
 \textbf{\emph{usage:}} \emph{./lisod $<$HTTP port$>$ $<$HTTPS port$>$
                              $<$log file$>$ $<$lock file$>$ $<$www folder$>$

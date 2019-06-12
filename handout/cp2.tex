@@ -1,10 +1,11 @@
+\label{sec:cp2}
 In this checkpoint, your web server will reply to client requests as a realy HTTP web server for static content. You will be able to browse to your server using a real web browser!
 
 \vspace{5pt}
 
 \noindent Your server MUST:
 \begin{itemize}
-    \item Respond to properly formatted HTTP HEAD and GET requests. You do not need to respond to POST requests yet.
+  \item Respond to properly formatted HTTP HEAD and GET requests. You do not need to respond to POST requests yet (reply to these with error 501).
     \item Support three HTTP 1.1 error codes: 400, 501, and 505. 501 is for unsupported methods; 505 is for bad version numbers. Everything else can be handled with an 400.
     \item Handle concurrent connections using select().
     \item Handle pipelined requests.
@@ -16,7 +17,7 @@ In this checkpoint, your web server will reply to client requests as a realy HTT
 \item You are highly encouraged to create a simplified logging module for your project that writes out formatted logs to the log file specified on the command-line; this will help you debug and trace requests that come to your system. {\it Nonetheless we will not require this in grading.}
 \item Enhance your server to respond properly to any HTTP 1.1 request and implement persistent connections with HEAD and GET as defined in RFC 2616. At this point as we don't have CGI we will not check responses for POST requests.
 \item Your server will need to handle lots of concurrent and pipelined requests: make sure you test with many simultaneous connections.
-\item The server should also handle errors in a sane way. {\bf It should never completely crash} (make it as robust as possible). Try to crash your server by sending malformed and strange requests and fix your server to prevent these crashes.
+\item The server should also handle errors in a sane way. {\bf It should never completely crash} (make it as robust as possible). In testing, try to crash your server by sending malformed and strange requests and fix your server to prevent these crashes.
 \item Double check that your server sends the appropriate error messages to malformed requests.
 \item Submission is the same as Checkpoint 1. Tag and upload your repo in a tarball to the corresponding lab on Autolab.
 \end{enumerate}
@@ -47,7 +48,7 @@ In this checkpoint, your web server will reply to client requests as a realy HTT
     \item Are we allowed to reject requests with headers beyond a maximum size?\\
     \textbf{Yes}, you may reject any header line larger than 8192 bytes. Note, that this is different than a Content Length of greater than 8192. Additionally, you must find and parse the next request properly for pipelining purposes if you do reject the request.
     \item Should we also handle request made up with /n instead of /r/n?\\
-    \textbf{No}, some web servers do this and it is nice for telnet testing. However, Liso does not have this as a requirement.
+    Some web servers do this and it is nice for telnet testing. However, Liso does not have this as a requirement -- you do not have to do this.
 \end{enumerate}
 
 \subsection{Grading}
@@ -104,5 +105,5 @@ The breakdown of grading for Checkpoint 2 is below.
 \end{center}
 
 
-\noindent Checkpoint 2 is worth 25\% of P1, which is worth 15\% of your final grade. Hence, in completing Checkpoint 2 with a perfect score you would earn 3.75\% of the points available in this class.
+\noindent Checkpoint 2 is worth 25\% of P1, which is worth 15\% of your final grade. Hence, in completing Checkpoint 2 with a perfect score you would earn 3.75\% of the points available in the final grade.
 
