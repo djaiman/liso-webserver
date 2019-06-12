@@ -1,0 +1,99 @@
+\label{sec:liso}
+Your server will implement HEAD, GET (both needed for HTTP 1.1 general purpose
+server compliance), and POST.  This should comply with the
+specification in the RFC~\cite{httprfc}.  After this we will move on into
+implementing TLS, and finally CGI.
+
+%% We will fill out this section on the exact portions of the specification---for
+%% example what commands may appear and should be supported in request
+%% headers---immediately following Checkpoint 1 submission.
+
+%% In addition, we will provide a lot more guidance on implementing TLS and CGI in
+%% the coming weeks.  Look for frequent updates to this document and the supporting
+%% code---we will announce major updates.
+\vspace{0.25in}
+
+\subsection{Supporting HTTP 1.1}
+
+\begin{itemize}
+\item \textbf{GET} -- requests a specified resource; it should not have any
+                       significance other than retrieval
+\item \textbf{HEAD} -- asks for an identical response as GET, without the actual
+                       body---no bytes from the requested resource
+\item \textbf{POST} -- submit data to be processed to an identified resource;
+                       the data is in the body of this request; side-effects
+                       expected
+\end{itemize}
+
+For all other commands, your server must return ``501 Method Unimplemented.'' If
+you are unable to implement one of the above commands (perhaps you ran out of
+time), your server must return the error response ``501 Method Unimplemented,''
+rather than failing silently (or not so silently).  While you develop, you
+may want to just return this error response always until features are
+implemented---no matter what you will have a valid HTTP 1.1 server!
+
+Your server should be able to support multiple clients concurrently. The only
+limit to the number of concurrent clients should be the number of available
+file descriptors in the operating system (the min of ulimit -n and
+FD\_SETSIZE---both typically 1024). We will not be testing beyond 1024 concurrent connections. While the server is waiting for a client to
+send the next command, it should be able to handle inputs from other clients.
+Also, your server should not hang if a client sends only a partial request.
+In general, concurrency can be achieved using either \texttt{select()} or
+multiple threads. However, in this project, you \textbf{must implement your
+server using \texttt{select()} to support concurrent connections}. Threads are
+\textbf{NOT} permitted at all for the project.  See the resources section below
+for help on these topics.  As a public server, your implementation should be
+robust to client errors. For example, your server should be able to handle
+malformed requests which do not have proper [CR][LF] line endings. The provided lex and yacc parser is not robust to these malformed requests and you are expected to add the necessary rules if you decide to go-ahead and use the provided parser. For example, it must not
+overflow any buffers when a malicious client sends a message that is ``too long." These are some things we will test for.
+
+You are implementing a \emph{real}, standards-compliant web server.  Therefore,
+comparing protocol exchanges to existing web servers is both valid and
+encouraged.  Install Apache~\cite{apache}, install Wireshark~\cite{wireshark}, and
+sniff the protocol exchanges and compare them to your own---even use captured web
+browser requests to replay from files you save as input to your implementation
+of Liso. Come up with other create ways to test as well as there is a portion of the grade reserved for testing.
+
+To aid you in programming, and testing, we have prepared a starter package available in the Autolab handout.  It contains the starter code for an echo server and HTTP parser. This code needs to be modified to use select() as well as adding support for multiple clients at once. Also, the parsing rules need to be enhanced to support the RFC specification~\cite{httprfc}. Additional information can be found in the checkpoint details Section~\ref{sec:c1}. 
+
+\subsection{HTTPS and CGI}
+In Checkpoint 3 you will extend your basic Liso server with support for HTTPS and CGI.  You will use the OpenSSL library for HTTPS support.  Specially, you will wrap communication calls with with SSL wrapping functions that will encrypt data sent over the channel and authenticate the server based on a certificate.  The details of how this works will be covered later in the course when we talk about network security.  In order to test HTTPS, you will need to get a certificate that your HTTPS-enabled server can use to authenticate itself to clients.  The details are explained later in Section~\ref{sec:c3}.
+
+The Common Gateway Interface (CGI) provides a standard interface that allows a web server to call other servers.  Web servers use this typically to generate dynamic content, i.e., the content that is generated is based on input provided by the client (using POST) or other client-specific information.  More information on this part of the project is also provided in Section~\ref{sec:c3}.
+
+\subsection{Command Line Arguments}
+\noindent\textbf{Liso will always have 8 arguments---functional or not. You may ignore many of them in the initial checkpoints.}\\
+
+\textbf{\emph{usage:}} \emph{./lisod $<$HTTP port$>$ $<$HTTPS port$>$
+                             $<$log file$>$ $<$lock file$>$ $<$www folder$>$
+                             $<$CGI script path$>$ $<$private key file$>$ $<$certificate file$>$}
+
+\begin{description}
+	\item[\textnormal{\emph{HTTP port}}] -- the port for the HTTP (or echo) server
+                                          to listen on
+
+	\item[\textnormal{\emph{HTTPS port}}] -- the port for the HTTPS server to
+                                           listen on
+
+	\item[\textnormal{\emph{log file}}] -- file to send log messages to
+                                         (debug, info, error)
+
+	\item[\textnormal{\emph{lock file}}] -- file to lock on when becoming a daemon
+                                          process
+
+	\item[\textnormal{\emph{www folder}}] -- folder containing a tree to serve as
+                                           the root of a website
+
+	\item[\textnormal{\emph{CGI script name (or folder)}}] --
+										   for this project, this is a file that should be
+										   a script where you redirect all
+										   /cgi/* URIs. In the real world, this
+										   would likely be a directory of
+										   executable programs.
+
+	\item[\textnormal{\emph{private key file}}] -- private key file path
+
+	\item[\textnormal{\emph{certificate file}}] -- certificate file path
+\end{description}
+
+

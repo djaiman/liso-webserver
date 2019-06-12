@@ -1,0 +1,138 @@
+\documentclass{article}
+\usepackage[left=1in,top=1in,bottom=1in,right=1in]{geometry}
+
+% \usephttps://autolab.andrew.cmu.edu/package[left=1in,top=1in,bottom=1in,right=1in]{geometry}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{array}
+
+% \usepackage{breakurl}
+\sloppy
+
+
+\newenvironment{packed_itemize}{
+\begin{list}{\labelitemi}{\leftmargin=2em}
+\vspace{-6pt}
+ \setlength{\itemsep}{0pt}
+ \setlength{\parskip}{0pt}
+ \setlength{\parsep}{0pt}
+}{\end{list}}
+
+\begin{document}
+
+\title{	15-441/641: Computer Networks\\
+Project 1: A Web Server Called Liso\\
+}
+\date{}
+
+\maketitle
+
+\section{Introduction}
+\input{introduction}
+
+\begin{center}
+\vspace{10pt}
+\begin{tabular}{cp{2.25in}cc}
+  Checkpoint&Goal&\% of Project Grade&Deadline\\
+  \hline
+  
+  \addlinespace[5pt]
+  1&Determine whether an HTTP 1.1 request is valid or invalid&15\%&September 3, 2010\\
+  
+  \addlinespace[5pt]
+  2&Respond correctly to HTTP 1.1 HEAD, GET, and POST requests.&25\%&September 15, 2010\\
+  
+  \addlinespace[5pt]
+  3&Support HTTPS and CGI requests, run as a daemon, and complete all previous tasks.&60\%&September 21, 2010\\
+\end{tabular}
+\end{center}
+
+\noindent At each checkpoint, we will assess your server to verify that it implements all of the goals for the current checkpoint and for the previous checkpoints as well. 
+  For this reason, the last checkpoint has the most weight assigned to it -- we will not only test HTTPS and CGI, but we will also test HEAD/GET/POST requests (from checkpoint 2) and error responses (from checkpoint 1).
+
+\newpage
+\section{The Liso Server}
+\input{overview}
+
+\newpage
+\section{Checkpoint 1: Parse and Identify Valid HTTP Requests}
+\input{cp1.tex}
+
+\newpage
+\section{Checkpoint 2}
+\input{cp2.tex}
+
+\newpage
+\section{Checkpoint 3}
+\input{cp3}
+
+\newpage
+\section{Submission and Implementation}
+\input{impl}
+
+
+\newpage
+\section{Tips}
+\input{tips}
+
+\begin{thebibliography}{1}
+\bibitem{urirfc}
+RFC 2396: \url{http://www.ietf.org/rfc/rfc2396.txt}
+\bibitem{httprfc}
+RFC 2616: \url{http://www.ietf.org/rfc/rfc2616.txt}
+\bibitem{httpsrfc}
+RFC 2818: \url{http://www.ietf.org/rfc/rfc2818.txt}
+\bibitem{cgirfc}
+RFC 3875: \url{http://www.ietf.org/rfc/rfc3875}
+\bibitem{apache}
+Apache: \url{http://httpd.apache.org/}
+\bibitem{wireshark}
+Wireshark: \url{http://www.wireshark.org/}
+%\bibitem{flex}
+%GNU Flex: \url{http://flex.sourceforge.net/manual/}
+%\bibitem{bison}
+%GNU Bison: \url{http://www.gnu.org/s/bison/manual/bison.html}
+\bibitem{www:openssl}
+Open SSL: \url{https://www.openssl.org/docs/manmaster/man3/}
+\bibitem{beej}
+Beej's Guide: \url{http://beej.us/guide/bgnet/output/html/singlepage/bgnet.html}
+\bibitem{Manual:Make}
+GNU Make Manual:  \url{http://www.gnu.org/software/make/manual/make.html}
+\bibitem{RFC:1122}
+RFC 1122 \url{http://www.ietf.org/rfc/rfc1122.txt}, page 11
+\bibitem{WWW:efence}
+ElectricFence: \url{http://perens.com/FreeSoftware/ElectricFence/}
+\bibitem{WWW:common_log}
+Common Log Format: \url{https://httpd.apache.org/docs/1.3/logs.html#common}
+\bibitem{WWW:no-ip}
+No-IP: \url{https://www.noip.com/free}
+\bibitem{WWW:Valgrind}
+Valgrind: \url{http://valgrind.org/}
+\bibitem{Book:CSAPP}
+CSAPP: \url{http://csapp.cs.cmu.edu}
+\bibitem{BSD:Sockets}
+\url{http://www.cis.temple.edu/~ingargio/old/cis307s96/readings/docs/sockets.html}
+\bibitem{BSD:IPC}
+\url{http://docs.freebsd.org/44doc/psd/20.ipctut/paper.pdf}
+\bibitem{FAQ:Sockets}
+\url{http://www.developerweb.net/forum/forumdisplay.php?s=f47b63594e6b831233c4b8ebaf10a614&f=70}
+\bibitem{Manual:libc}
+\url{http://www.gnu.org/software/libc/manual/}
+\bibitem{Spec:Unix}
+\url{http://www.opengroup.org/onlinepubs/007908799/}
+\bibitem{Google:Groups}
+\url{http://groups.google.com}
+%%%
+\end{thebibliography}
+
+\appendix
+
+\newpage
+\section{Required CGI Variables}
+\input{cgi-vars}
+\end{document}
+
+

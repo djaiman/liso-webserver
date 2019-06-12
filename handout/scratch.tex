@@ -1,0 +1,48 @@
+
+Be prepared: this is a single person project and it has a lot of depth---your
+skills will be exercised (perhaps to their limits).  So start early and feel
+more than welcome to ask questions. The lead TAs on this project are Alex and
+Krithika and you can ask them for help during their office hours, but you can of
+course use the office hours of the other TAs as well.   Note that the TAs are
+\underline{not allowed} to debug your code for you. Specifically, they will only
+look at your code for a limited time (up to 10 minutes; leaving them time to help
+other students) and they will not modify your code (they cannot touch the keyboard).  Their role is 
+to help you learn how to debug, and to answer any questions you have about the
+project.
+
+
+We will be providing test scripts for each checkpoint and also the final
+finished server. Note however that grading will be based on additional tests that will not be provided to you.  This handout lists what functions and properties of your project will be tested.
+
+Here are some simple starting points for scripting your own external tests:
+\vspace{0.25in}
+
+\noindent \textbf{netcat}
+
+You may use netcat to send arbitrary files to your server and receive responses.
+Use regular bash redirection ($<$ and $>$) along with ncat to achieve this.
+
+Read \texttt{man ncat} for more information.
+
+\noindent \textbf{expect}
+
+Quoting from the expect man page:
+
+Expect is a program that ``talks'' to other interactive programs according to a
+script. Following the script, Expect knows what can be expected from a program
+and what the correct response should be. An interpreted language provides
+branching and high-level control structures to direct the dialogue.\\
+
+\noindent \textbf{Python socket}
+
+This is a very simple and easy to use Python module for creating and interacting
+with sockets.  We have used this in the first checkpoint testing script
+provided to you for testing your implementation of an echo server.  This will be
+used for creating future testing programs which we will release leading the
+schedule for deadlines.
+
+You can read about this module here: \url{http://docs.python.org/library/socket.html}.
+
+In addition, for testing HTTP, there is a urllib2 library in Python. You can also use the requests library to create requests for your server.
+
+

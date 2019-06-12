@@ -1,0 +1,27 @@
+\label{sec:cgi-vars}
+
+We will test for the following CGI variables only.
+\begin{enumerate}
+\item CONTENT\_LENGTH -- taken directly from request
+\item CONTENT\_TYPE -- taken directly from request
+\item GATEWAY\_INTERFACE -- "CGI/1.1"
+\item PATH\_INFO -- $<path>$ component of URI
+\item QUERY\_STRING -- parsed from URI as everything after ``?''
+\item REMOTE\_ADDR -- taken when accept() call is made
+\item REQUEST\_METHOD -- taken directly from request
+\item REQUEST\_URI -- taken directly from request
+\item SCRIPT\_NAME -- hard-coded/configured application name (virtual path) 
+\item SERVER\_PORT -- as configured from command line (HTTP or HTTPS port depending)
+\item SERVER\_PROTOCOL -- "HTTP/1.1"
+\item SERVER\_SOFTWARE -- "Liso/1.0"
+\item HTTP\_ACCEPT -- taken directly from request
+\item HTTP\_REFERER -- taken directly from request
+\item HTTP\_ACCEPT\_ENCODING -- taken directly from request
+\item HTTP\_ACCEPT\_LANGUAGE -- taken directly from request
+\item HTTP\_ACCEPT\_CHARSET -- taken directly from request
+\item HTTP\_HOST -- taken directly from request
+\item HTTP\_COOKIE -- taken directly from request
+\item HTTP\_USER\_AGENT -- taken directly from request
+\item HTTP\_CONNECTION -- taken directly from request
+\item HTTP\_HOST -- taken directly from request
+\end{enumerate}

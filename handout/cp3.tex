@@ -1,0 +1,104 @@
+In this checkpoint you will add the final touches to your web server. 
+You will add support for CGI requests, and you will add support for HTTPS, which uses encryption to keep connection content private from Internet eavesdroppers.
+In addition, you will `daemonize' your server to allow it to run as a persistent background task, and you will double-check all of the requirements from Checkpoints 1 and 2 for a final grade.
+
+\vspace{5pt}
+\noindent Your server MUST:
+\begin{itemize}
+  \item Support the CGI standard as specified in RFC 3875.
+  \item Support HTTPS via TLS as specified in RFC 2818.
+  \item Run as a daemonized, background process.
+  \item {\bf NB: Continue to support regular HTTP requests on port 80, as in CP2.}
+\end{itemize}
+
+\subsection{Getting Started}
+
+\begin{enumerate}
+  \item Create support for the CGI variables listed in \S\label{sec:cgi-vars}. Not all variables may be used in the ASCII Art sample, but we will have additional checks to make sure that you do set these variables in case other CGI scripts are used. Using a python CGI script that echos the environment variables may be useful for your debugging.
+\item Additionally, your CGI module will need to do the following. Some good references: are the CGI RFC \cite{cgirfc} and the URI RFC \cite{urirfc}. We have also provided a CGI runner in C and a runnable python script in the handout. 
+\begin{enumerate}
+    \item CGI URI's may accept GETs, POSTs, and HEADs; your job is not to decide this, just pass along information to the program being called
+    \item You must now parse inbound URI's to look for a special root folder, and in addition chop off arguments passed via URI according to specifications.
+    \item Any URI starting with ``/cgi/'' will be handled by a single command-line specified executable via a CGI interface coded by you
+    \item You need to pipe stdin, pipe stdout, fork(), setup environment variables per the CGI specification, and execve() the executable (it should be executable) Note: Watch the piped fd's in the parent process using your select() loop. Just add them to the appropriate select() sets and treat them like sockets, except you have to pipe them further to specific sockets.
+    \item Pass any message body (especially for POSTs) via stdin to the CGI executable
+    \item Receive any response over stdout until the process dies (monitor process status), or there is nothing more to read or broken pipe encountered
+    \item If the CGI program fails in any way, return a 500 response to the client, otherwise
+    \item Send all bytes from the stdout of the spawned process to the requesting client.
+    \item The CGI application will produce headers and message body as it sees fit, you do not need to modify or inspect these bytes at all; you are a proxy...things have come full circle!
+\end{enumerate}
+\item Create a DNS hostname for yourself with a free account at No-IP \cite{WWW:no-ip} (or use a domain name you already have...)
+\item In order to test your HTTPS implementation, we need to monitor your (encrypted!) HTTPS traffic.  To allow this, add the 15-441 Carnegie Mellon University Root CA to your browser (import certificate, usually somewhere in preferences)
+\begin{enumerate}
+    \item Now we can man-in-the-middle your HTTPS :-) Being course staff has perks!
+    \item But just trust us till this part is over...or make your own \textbf{\href{http://www.g-loaded.eu/2005/11/10/be-your-own-ca/}{CA}}.
+    \item Really though, this is the part of the course where you need to Reflect on Trusting Trust.
+\end{enumerate}
+\item Obtain your own private key and public certificate from the 15-441 CMU CA.  You will need this when you run your HTTPS-enabled web server.
+\item Implement SSL support - we have provided you a sample C server in the Autolab Handout. 
+\begin{enumerate}
+    \item Use the OpenSSL library. \cite{www:openssl}
+    \item Create a second server listening socket in addition to the first one. Use the passed in SSL port from the commandline arguments.
+    \item Add this socket to the select() loop just like your normal HTTP server socket.
+    \item Whenever you accept connections, wrap them with the SSL wrapping functions.
+    \item Use the special read() and write() SSL functions to read and write to these special connected clients
+    \item If you setup your browser, you may now verify that connections to your webserver use TLSv1.0; inspect the ciphers, message authentication hash scheme, and key exchange methods used by your server.
+\end{enumerate}
+\item Implement daemonization - we have provided you a sample of daemonizing code.
+\item Submission is the same as Checkpoint 1. Tag and upload your repo in a tarball to the corresponding lab on Autolab.
+\end{enumerate}
+
+\subsection{Grading}
+%
+The breakdown of grading for Checkpoint 3 is below.
+%
+\begin{center}
+  \begin{tabular}{>{\centering\arraybackslash}m{1in}>{\centering\arraybackslash}m{1in}p{3in}}
+  {\bf Task}&{\bf Weight}&{\bf Subcriteria}\\
+  \hline
+  \addlinespace[5pt]
+    Format&10\%&\vspace{-10pt} 
+                              {\it Assigned by human grader:}
+                              \begin{packed_itemize}
+                                \item Correct turnin -- Makefile, compilation, properly tagged repo, TA's don't have to edit or search for files (10\%)
+                                \item Code style (5\%)
+                                \item Code commenting (5\%)
+                              \end{packed_itemize}\\
+
+  \hline
+  \addlinespace[5pt]
+
+    CGI&30\%&\vspace{-10pt} 
+                              {\it Assigned in AutoLab:}
+                              \begin{packed_itemize}
+                                \item Supports all CGI variables
+                                \item Runs provided ASCII Art CGI script
+                                \item Accepts/Replies to CGI requests from multiple clients at the same time over HTTP.
+                              \end{packed_itemize}\\
+
+  \hline
+  \addlinespace[5pt]
+
+  HTTPS&20\%&\vspace{-10pt} 
+                              {\it Assigned in AutoLab:}
+                              \begin{packed_itemize}
+                                \item Presents a certificate and initiates a TLS connection.
+                                \item GET, HEAD, and POST requests all work through the HTTPS connection.
+                                \item Multiple clients can connect at the same time over HTTPS.
+                              \end{packed_itemize}\\
+
+  \hline
+  \addlinespace[5pt]
+
+  Basic HTTP&40\%&\vspace{-10pt} 
+                              {\it Assigned in AutoLab:}
+                              \begin{packed_itemize}
+                                \item All criteria from CP2.
+                              \end{packed_itemize}\\
+
+\end{tabular}
+\end{center}
+
+
+\noindent Checkpoint 3 is worth 60\% of P1, which is worth 15\% of your final grade. Hence, in completing Checkpoint 1 with a perfect score you would earn 9\% of the points available in this class.
+

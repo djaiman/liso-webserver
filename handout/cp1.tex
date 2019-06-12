@@ -1,0 +1,91 @@
+
+In this checkpoint, you will parse requests from a client like Opera, Firefox, or Chrome.
+Instead of responding to the requests, your Liso server will simply try to identify whether to request is a valid HEAD, GET, or POST request.
+If it is a valid HEAD, GET, or POST request, the server will `echo' the request back to the client.
+Otherwise, it will return an HTTP response with 400 as the error code.
+
+\vspace{5pt}
+
+\noindent Your server MUST:
+\begin{itemize}
+  \item Correctly identify whether an HTTP HEAD, GET, or POST request is correctly formed  \item Handle multiple clients sending HTTP requests at the same time.
+  \item Use {\tt select()} to accept incoming data.
+  \item Use lex and yacc to parse the requests.
+\end{itemize}
+
+\subsection{Getting Started}
+\begin{enumerate}
+  \item Unpack the starter code and create a git repo (\texttt{tar -zxvf Project1\_starter.tar.gz; cd 15-441-project-1; git init}).
+
+  \item Create a \texttt{select()}-based echo server handling multiple clients at once, building on the  starter code provided on autolab and the course website.  
+
+  \item Specifically, your server must have the capability to parse HTTP 1.1 requests and classify them as ``good'' or ``bad'' based on the provided RFC~\cite{httprfc}. For all ``good'' requests, you will simply echo back the original request. For all ``bad'' requests, you will return an HTTP response with 400 as the error code.
+
+  \item Test using our provided cp1\_checker.py test script (read that script and understand it too.)
+
+  \item Finally, hand-in your
+submission by the deadline and include all needed files as outlined in
+\S\ref{sec:handin}.\\
+\end{enumerate}
+
+\subsection{Tips \& FAQ}
+    \begin{itemize}
+      \item To test `Valid' requests, we will specifically be using requests as formatted by Opera, Firefox, Chrome, or Apache Bench. In industry folks test web services on a tens or even hundreds of combinations of browsers and environments... we'll stick to just these four for this project.
+      \item Note that Apache Bench expects a Content-Length: field on every reply -- even error messages.
+      \item If the request is validly formed but not a HEAD, GET, or POST you may either reply with a 400 or a 501 error code for this checkpoint (in CP2 you must reply with a 501).
+    \end{itemize}
+
+\newpage
+\subsection{Grading}
+%
+The breakdown of grading for Checkpoint 1 is below.
+%
+\begin{center}
+  \begin{tabular}{>{\centering\arraybackslash}m{1in}>{\centering\arraybackslash}m{1in}p{3in}}
+  {\bf Task}&{\bf Weight}&{\bf Subcriteria}\\
+  \hline
+  \addlinespace[5pt]
+    Format&20\%&\vspace{-10pt} 
+                              {\it Assigned by human grader:}
+                              \begin{packed_itemize}
+                                \item Correct turnin -- Makefile, compilation, properly tagged repo, TA's don't have to edit or search for files (10\%)
+                                \item Code style (5\%)
+                                \item Code commenting (5\%)
+                              \end{packed_itemize}\\
+
+  \hline
+  \addlinespace[5pt]
+
+    Basics&10\%&\vspace{-10pt} 
+                              {\it Assigned in AutoLab:}
+                              \begin{packed_itemize}
+                                \item Accepts requests
+                                \item Provides a response
+                                \item Does not crash on receiving valid or invalid requests
+                                \item Accepts/Replies to requests from multiple clients at the same time
+                              \end{packed_itemize}\\
+
+  \hline
+  \addlinespace[5pt]
+
+  Valid Request Handling&25\%&\vspace{-10pt} 
+                              {\it Assigned in AutoLab:}
+                              \begin{packed_itemize}
+                                \item Echoes to valid requests from Opera, Chrome, Firefox, or Apache Bench.
+                              \end{packed_itemize}\\
+
+  \hline
+  \addlinespace[5pt]
+
+  Invalid Request Handling&45\%&\vspace{-10pt} 
+                              {\it Assigned in AutoLab:}
+                              \begin{packed_itemize}
+\item Provides error code 400 to requests formatted improperly according to RFC 2616.
+                              \end{packed_itemize}\\
+
+\end{tabular}
+\end{center}
+
+
+\noindent Checkpoint 1 is worth 15\% of P1, which is worth 15\% of your final grade. Hence, in completing Checkpoint 1 with a perfect score you would earn 2.25\% of the points available in this class.
+

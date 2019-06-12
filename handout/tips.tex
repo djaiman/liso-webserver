@@ -1,0 +1,125 @@
+
+\section{Getting Started}
+This section gives suggestions for how to approach the project. Naturally, other
+approaches are possible, and you are free to use them.
+
+\begin{itemize}
+	\item \textbf{Start early!} The hardest part of getting started tends to be
+	  getting started. Remember the 90-90 rule: the first 90\% of the job takes
+	  90\% of the time; the remaining 10\% takes the other 90\% of the time.
+	  Starting early gives you time to ask questions. For clarifications on
+	  this assignment, post to Piazza and read project updates on the course
+	  web page.  Talk to your classmates. While you need to write your own
+	  original program, we expect conversation with other people facing the
+	  same challenges to be very useful. Come to office hours. The course staff
+	  is here to help you.
+
+	\item Read the RFCs selectively. RFCs are written in a style that you may
+      find unfamiliar. However, it is wise for you to become familiar with it,
+      as it is similar to the styles of many standards organizations. We don't
+      expect you to read every page of the RFC, especially since you are only
+      implementing a small subset of the full protocol, but you may well need to
+      re-read critical sections a few times for the meaning to sink in.
+
+	\item Begin by taking a cursory first pass over the RFCs. Do not focus on
+      the details; just try to get a sense of how they work at a high
+      level. Understand the role of the server. Understand what error conditions
+      are possible, and how they are used. You may want to print the RFCs, and
+      mark them up to indicate which parts are important for this project, and
+      which parts are not needed. You may need to re-read these sections several
+      times.
+
+	\item Next, take a second pass over the RFCs. You will want to read all of
+      them together.  Again, do not focus on the details; just try to understand
+      the requests and responses at a high level. As before, you may want to
+      mark up a printed copy to indicate which parts of the RFCs are important
+      for the project, and which parts are not needed.
+
+	\item Now, go back and read with an eye toward implementation. Mark the
+      parts which contain details that you will need to write your server.
+      Start thinking about the data structures (input and output buffers, etc.)
+      your server will need to maintain. What information needs to be stored
+      about each client while servicing requests (maybe an HTTP 1.1 finite state
+      machine per client, etc.)?
+
+	\item Get started with a simple server that accepts connections from
+	  multiple clients. It should take any message sent by any client, and
+	  ``echo'' that message back to its sender.  This server will not be
+	  compatible with HTTP clients, but the code you write for it will be
+	  useful for your final server. Writing this simpler server will let you
+	  focus on the socket programming aspects of a server without worrying
+	  about the details of the protocols. Test this simple server with the provided Python script in Checkpoint 1.
+
+    \item Next, enhance the starter code we have provided for HTTP parsing. Apply all the RFC knowledge you have gathered from previous steps and try to convert them into rules. After you combine this parser along with the echo server, you should be ready for Checkpoint 1. 
+    
+	\item At this point, you are ready to write a standalone HTTP 1.1
+      server. But do not try to write the whole server at once. Decompose the
+      problem so that each piece is manageable and testable.  For each request,
+      identify the different cases that your server needs to handle. Find common
+      tasks among different commands and group them into procedures to avoid
+      writing the same code twice. You might start by implementing the routines
+      that read and parse commands. Then implement commands one by one, testing
+      each with \texttt{telnet}.
+
+	\item Thoroughly test your server. Use the provided scripts to test basic
+	  functionality. For further testing, use \texttt{telnet}, a web browser,
+	  or replay scripts. Learn Python from our scripts and as we go to make
+	  repeatable ``regression tests''---every time you implement a new feature
+	  you use regression tests to see if anything broke.
+
+	\item Make sure to check the return code of all system calls and handle
+      errors appropriately. Temporary failures (e.g., EINTR) should not cause
+      your server to abort or exit in failure.  Fatal errors can be dealt with
+      via a perror() call and exiting---but try to clean up open file descriptors
+      and sockets nicely even when fatally exiting.
+
+	\item Be liberal in what you accept and conservative in what you
+      send~\cite{RFC:1122}.  Following this guiding principle of Internet design
+      will help ensure your server works with many different and unexpected
+      client behaviors.
+
+	\item Code quality is important. Make your code modular and extensible where
+      possible. You should probably invest an equal amount of time in testing
+      and debugging as you do writing. Also, debug incrementally.  Write in
+      small pieces and make sure they work before going on to the next piece.
+      Your code should be readable and commented. Not only should your code be
+      modular, extensible, readable, etc, most importantly, it should be your
+      own!
+
+    \item You may want to consider turning warnings into errors to avoid bad
+	  programming style. Do this by passing \texttt{-Werror} to \texttt{gcc}
+	  during compilation.
+
+	\item If you have a question about a project handout or a technical issue,
+	  there is an excellent chance that other students have the same question.
+	  Please read Piazza to see if there has been traffic and consider posting
+	  your questions there.
+
+\end{itemize}
+
+\section{Resources}
+For information on network programming, the following may be helpful:
+
+\begin{itemize}
+    \item Beej's Guide~\cite{beej}
+	\item Class Textbook -- Sockets, etc
+	\item Class Piazza --  Announcements, clarifications, etc
+	\item Class Website --  Announcements, errata, etc
+	\item Computer Systems: A Programmer's Perspective (CS 15-213 text book)\cite{Book:CSAPP}
+	\item BSD Sockets: A Quick And Dirty Primer\cite{BSD:Sockets}
+	\item An Introductory 4.4 BSD Interprocess Communication Tutorial\cite{BSD:IPC}
+	\item Unix Socket FAQ\cite{FAQ:Sockets}
+	\item Sockets section of the GNU C Library manual
+		\begin{itemize}
+			\item Installed locally: info libc
+			\item Available online: GNU C Library manual\cite{Manual:libc}
+		\end{itemize}
+	\item man pages
+		\begin{itemize}
+			\item Installed locally (e.g. man socket)
+			\item Available online: the Single Unix Specification\cite{Spec:Unix}
+		\end{itemize}
+	\item Other Google Groups / Stackoverflow - Answers to almost anything\cite{Google:Groups}
+\end{itemize}
+
+
