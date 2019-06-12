@@ -1,38 +1,22 @@
-\section{Implementation and Submission}
-This is a solo project: you \emph{must} implement and submit your own code.  
-Source materials for this project may be found on Autolab. 
+In this section we talk about your code and requirements for development.
+Recall that in all checkpoints, part of your grade is based on meeting the formatting requirements. So, please read this section carefully!
 
-\subsection{Coding and Version Control}
-Your server must be written in the C programming language. You are not allowed
-to use any custom socket classes or libraries, only the standard socket library
-and the provided library functions. You \textbf{may not} use the csapp wrapper
-library from 15-213/15-513 or libpthread for threading. We disallow csapp.c for two
-reasons:
-first, to ensure that you understand the raw standard BSD sockets API,
-and, second, because csapp.c's wrapper functions are not suitable for robust
-servers. Temporary system call failures (e.g., EINTR) in functions such as
-\texttt{select()} could cause the server to abort and utility functions like
-\texttt{rio\_readlineb} are not designed for nonblocking code.
+\subsection{Framework Code} 
+We will provide you with framework code that will, for example, help in forking
+a process for proper CGI handling and setting up the environment, parse
+commandline arguments (and sanity check them) and daemonize a process.
+You may download this code from the course website or from Autolab.
 
-That said, we encourage the use of \emph{anything} for testing.  Use
-Wireshark~\cite{wireshark}, use telnet, use real web browsers, use Python to
-script tests---for testing, the sky is the limit.
-
-All of your project files and submissions \textbf{must} be stored in a git repository.
-%% repository: \url{http://sourcery.cmcl.cs.cmu.edu/indefero}
-
-%%\item All of your project files and submissions \textbf{must} be stored on
-%%  AFS in the 441 course directory (\texttt{/afs/andrew/course/15/441-641/}) as a
-%%  git-backed repository. You should have a subdirectory in that folder named the
-%%  same as your Andrew ID where you must store your git repo (i.e., if your Andrew
-%%  ID is \emph{mmukerje} then store your git repo at
-%%  \texttt{/afs/andrew/course/15/441-641/mmukerje/}).
-
-You will submit your code as a tarball named \texttt{\textit{<andrewID>}.tar}. Untarring this file should give us a directory named \texttt{15-441-project-1} which should contain the git repository as well as the code. You will submit this tarball using Autolab ( \url{https://autolab.andrew.cmu.edu} ). If you still can't login with your andrew ID by the end of January 22nd, let us know ASAP.\\\\
-Checkpoints are designed to ensure that you keep tabs on your progress and are a great guideline to help you complete your project on time. Please note that  Checkpoint 1 is fairly straightforward and a small part of the total work. It helps you to familiarize yourself with the basics of socket programming (specifically how to use \texttt{select()} system call) and  will require some amount of RFC interpretation for implementing a basic HTTP 1.1 parser. The rest of the checkpoints are progressively harder and will build on the previous checkpoints.
+\subsection{Coding and Compilation}
+Your server must be written in the C programming language. 
+You may use code from the 15-213/15-513 course, so long as you cite the borrowed
+code in a reference. 
+Nonetheless, we warn you that the 15-213/513 code will require modification (e.g. it can cause your server to crash/abort in certain conditions; the code is blocking and can impede your ability to handle concurrent connections)
+You are not allowed
+to use any other third party socket classes or libraries, only the standard socket library
+and the provided library functions in the starter code 
 
 
-\subsection{Compiling}
 You are responsible for making sure your code compiles and runs correctly on
 the Andrew x86 machines running Linux (i.e., \texttt{linux.andrew.cmu.edu} /
 \texttt{unix.andrew.cmu.edu}). We recommend using \texttt{gcc} to compile your
@@ -41,65 +25,40 @@ program and \texttt{gdb} to debug it. You should use the \texttt{-Wall} and
 debug. Other tools available on the Andrew unix machines that are suggested are
 ElectricFence~\cite{WWW:efence} (link with \texttt{-lefence}) and
 Valgrind~\cite{WWW:Valgrind}---use this with full leak checking to ensure you
-have no memory leaks.  For this project, \textbf{you will also be responsible
-for turning in a GNU Make compatible Makefile}. See the GNU make
+have no memory leaks.  For this project, you will also be responsible
+for turning in a GNU Make compatible Makefile. See the GNU make
 manual\cite{Manual:Make} for details. When we run \texttt{make} we should end
 up with the Liso web server binary \textbf{\texttt{lisod}}.
-\subsection{Running}
-%This is how we will start your implementation of Liso:\\
-%\emph{
-%\indent./lisod 8080 4443 /tmp/lisod.log /tmp/liso.lock /tmp/www /tmp/cgi/cgi_script.py /tmp/priv.key /tmp/cert.crt \\
-%}
-The Liso server will be passed the ports to run on, what log file to use, what
-lock file to use when daemonizing, folders to serve static data from as well
-as CGI applications, and TLS private/public key pairs.
 
-Not all of these options need to be functional at each stage of development.
-Only a HTTP port is needed for the first checkpoint when implementing an echo server
-using \texttt{select()}.
-
-\subsection{Framework Code} 
-We will provide you with framework code that will, for example, help in forking
-a process for proper CGI handling and setting up the environment, parse
-commandline arguments (and sanity check them) and daemonize a process.
-
-\textbf{DISCLAIMER:} We reserve the right to change the support code as the
-project progresses to fix bugs and to introduce new features that will help you
-debug your code. You are responsible for checking Piazza to stay
-up-to-date on these changes. We will assume that all students in the class will
-read and be aware of any information posted to Piazza.
-
-\subsection{HTTP Packet Parsing}
-Historical evidence suggests that most students spend considerable
-amount of time writing correct parsers. While parsing packets using
-C's string manipulation functions may well be an essential skill to
-have, it might get insanely tedious. We want you to spend time on
-other more important programming aspects such as socket programming,
-handling race conditions and memory leaks. For this reason, we require you to use Lex and Yacc for parsing packets. We will also provide you with a basic HTTP parser written in lex and yacc. More about parsing
-using Lex and Yacc will be covered in recitations. So, stay tuned!
-
-
-\subsection{Hand-In}
-\label{sec:handin}
-Handing in code for checkpoints and the final submission deadline will be done
-through Autolab (\url{https://autolab.andrew.cmu.edu}).  You are supposed to upload the tarball file for each checkpoint into the corresponding assessment on our course page of Autolab website.
 
 \subsection{Work with git}
-You are supposed to create your git repo on your local machine or on a \textbf{private} git repo hosted
+
+
+All of your project files and submissions \textbf{must} be stored in a git repository.
+
+You are supposed to create your git repo on your local machine or on a \textbf{private} shared repo hosted
 online as part of
-Checkpoint 1. Every checkpoint will be a git tag in this repo. To create a tag, run
+Checkpoint 1. 
+{\bf If you use github do not make your project code public or you will find cheaters copying your code and yourself in a very uncomfortable academic misconduct meeting.}
+
+Every checkpoint will be a git tag in your repo. To create a tag, run
 \[
 \texttt{git tag -a checkpoint-\textit{<num>} -m \textit{<message>} [\textit{<commit hash>}]}
 \]
 with appropriate checkpoint number and custom message filled in. (Put whatever
 you like for the message --- git won't let you omit it.) The optional commit
 hash can be used to specify a particular commit for the tag; if you omit it,
-the current commit is used. If you choose to clone your repository onto your
-local machine for development, be sure to use \texttt{git push --tags} to sync
-your work back to git server; the standard \texttt{git push} doesn't send tags.
+the current commit is used. 
+Be sure to use \texttt{git push --tags} to sync
+your work back to git server; the standard \texttt{git push} doesn't synchronize tags.
 
-\subsection{Upload your code}
-To submit your code, make a tarball file of you repo after you tag it. Then login to autolab website, choose \texttt{“15-441: Computer Networks (s19)” -> “project1cp\textit{<N>}”} and then upload your tarball. The grader should be finished in less than a minute but may take longer depending on system load. When it is done, your score will be shown. Only the latest score will be used.\\
+\subsection{Hand-In}
+\label{sec:handin}
+
+To submit your code, make a tarball file of you repo after you tag it. 
+You will submit your code as a tarball named \texttt{\textit{<andrewID>}.tar}. Untarring this file should give us a directory named \texttt{15-441-project-1} which should contain the git repository as well as the code. You will submit this tarball using Autolab ( \url{https://autolab.andrew.cmu.edu} ). 
+
+Then login to autolab website, choose \texttt{“15-441: Computer Networks (s19)” -> “project1cp\textit{<N>}”} and then upload your tarball. The grader should be finished in less than a minute but may take longer depending on system load. When it is done, your score will be shown. Only the latest score will be used.\\
 
 
 Untarring the tarball should give us a directory named \texttt{15-441-project-1} which contains a valid git repo with tags. Your repo should contain the minimum following files:
@@ -110,21 +69,12 @@ Untarring the tarball should give us a directory named \texttt{15-441-project-1}
       build an executable named lisod.
 	\item \textbf{All of your source code} -- (files ending with .c, .h,
       etc. only, no .o files and no executables)
-	\item \textbf{readme.txt} -- File containing a brief description of your source tree organization.
+    \item \textbf{readme.txt} -- File containing a brief description of your source tree organization -- what does each file do? This file should also contain your name(s).
 	
-	\item \textbf{tests.txt} -- File containing documentation of your test cases
-      and any known issues you have.
-%    \item \textbf{replay.test} -- File containing input to send to the server
-%      testing the implementation
-%    \item \textbf{replay.out} -- File containing expected server output matching
-%      input given in replay.test
-    %\item %\textbf{vulnerabilities.txt} -- File containing documentation of at
-    %  least one vulnerability you identify at each stage.
 \end{itemize}
 
 	Late submissions will be handled according to the policy given in the
         course syllabus.
 
-%\newpage
 
 
