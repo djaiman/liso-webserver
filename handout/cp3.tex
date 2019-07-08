@@ -13,21 +13,29 @@ In addition, you will `daemonize' your server to allow it to run as a persistent
 \end{itemize}
 
 \subsection{Getting Started}
+We suggest you work on this checkpoint in two phases. In one phase, implement CGI. In another phase, add support for HTTPS. You can do these steps in either order -- just don't try to do both at the same time!
+
+\subsubsection{Implementing CGI}
+
+  Most of the instructions for this checkpoint are listed below. But, we recommend that you `skim' the CGI RFC~\cite{cgirfc} and the URI RFC~\cite{urirfc} to get the big picture before diving in to your implementation.
 
 \begin{enumerate}
-  \item Create support for the CGI variables listed in \S\label{sec:cgi-vars}. Not all variables may be used in the ASCII Art sample, but we will have additional checks to make sure that you do set these variables in case other CGI scripts are used. Using a python CGI script that echos the environment variables may be useful for your debugging.
-\item Additionally, your CGI module will need to do the following. Some good references: are the CGI RFC \cite{cgirfc} and the URI RFC \cite{urirfc}. We have also provided a CGI runner in C and a runnable python script in the handout. 
+  
+  \item Create support for the CGI variables listed in \S\ref{sec:cgi-vars}. Not all variables may be used in the ASCII Art sample, but we will have additional checks to make sure that you do set these variables in case other CGI scripts are used. Using a python CGI script that echos the environment variables may be useful for your debugging.
+\item Implement your CGI module. Any URI starting with ``/cgi/'' will be handled by a single command-line specified executable via a CGI interface coded by you. We have also provided a CGI runner in C. 
 \begin{enumerate}
     \item CGI URI's may accept GETs, POSTs, and HEADs; your job is not to decide this, just pass along information to the program being called
-    \item You must now parse inbound URI's to look for a special root folder, and in addition chop off arguments passed via URI according to specifications.
-    \item Any URI starting with ``/cgi/'' will be handled by a single command-line specified executable via a CGI interface coded by you
     \item You need to pipe stdin, pipe stdout, fork(), setup environment variables per the CGI specification, and execve() the executable (it should be executable) Note: Watch the piped fd's in the parent process using your select() loop. Just add them to the appropriate select() sets and treat them like sockets, except you have to pipe them further to specific sockets.
     \item Pass any message body (especially for POSTs) via stdin to the CGI executable
     \item Receive any response over stdout until the process dies (monitor process status), or there is nothing more to read or broken pipe encountered
-    \item If the CGI program fails in any way, return a 500 response to the client, otherwise
-    \item Send all bytes from the stdout of the spawned process to the requesting client.
-    \item The CGI application will produce headers and message body as it sees fit, you do not need to modify or inspect these bytes at all; you are a proxy...things have come full circle!
+    \item If the CGI program fails in any way, return a 500 response to the client, otherwise send all bytes from the stdout of the spawned process to the requesting client.
+    \item The CGI application will produce headers and message body as it sees fit, you do not need to modify or inspect these bytes at all.
 \end{enumerate}
+\end{enumerate}
+
+\subsubsection{Implementing HTTPS}
+
+\begin{enumerate}
 \item Create a DNS hostname for yourself with a free account at No-IP \cite{WWW:no-ip} (or use a domain name you already have...)
 \item In order to test your HTTPS implementation, we need to monitor your (encrypted!) HTTPS traffic.  To allow this, add the 15-441 Carnegie Mellon University Root CA to your browser (import certificate, usually somewhere in preferences)
 \begin{enumerate}

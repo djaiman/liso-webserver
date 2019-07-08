@@ -35,7 +35,8 @@ submission by the deadline and include all needed files as outlined in
     
       \item The RFC is long, and there are many tricky points in determining whether or not a request is `Valid'. {\it It is not cheating to discuss what the RFC says.} Clarification about what the RFC requires is absolutely okay discussion!  
 
-      \item Note that Apache Bench expects a Content-Length: field on every reply -- even error messages.
+      \item Note that Apache Bench expects a Content-Length: field on every reply -- even error messages. Every valid request we send you will include a Content-Length field.
+
       \item If the request is validly formed but not a HEAD, GET, or POST you may either reply with a 400 or a 501 error code for this checkpoint (in CP2 you must reply with a 501).
   
       \item Can we assume that we will only receive one request per connection?\\

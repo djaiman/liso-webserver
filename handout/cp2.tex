@@ -1,12 +1,12 @@
 \label{sec:cp2}
-In this checkpoint, your web server will reply to client requests as a realy HTTP web server for static content. You will be able to browse to your server using a real web browser!
+In this checkpoint, your web server will reply to client requests as a real HTTP web server for static content. You will be able to browse to your server using a real web browser!
 
 \vspace{5pt}
 
 \noindent Your server MUST:
 \begin{itemize}
-  \item Respond to properly formatted HTTP HEAD and GET requests. You do not need to respond to POST requests yet (reply to these with error 501).
-    \item Support three HTTP 1.1 error codes: 400, 501, and 505. 501 is for unsupported methods; 505 is for bad version numbers. Everything else can be handled with an 400.
+  \item Respond to properly formatted HTTP HEAD and GET requests. You do not need to respond to POST requests yet (continue to echo reply to POST requests if the request is correctly formatted; send an error 400 if the request is malformed).
+    \item Support three HTTP 1.1 error codes: 400, 501, and 505. 501 is for unsupported methods; 505 is for bad version numbers. Everything else can be handled with a 400.
     \item Handle concurrent connections using select().
     \item Handle pipelined requests.
 \end{itemize}
@@ -14,10 +14,10 @@ In this checkpoint, your web server will reply to client requests as a realy HTT
 \subsection{Getting Started}
 \begin{enumerate}
 \item Begin with your repository for Checkpoint 2, using the result of Checkpoint 1 as a starting point.
-\item You are highly encouraged to create a simplified logging module for your project that writes out formatted logs to the log file specified on the command-line; this will help you debug and trace requests that come to your system. {\it Nonetheless we will not require this in grading.}
-\item Enhance your server to respond properly to any HTTP 1.1 request and implement persistent connections with HEAD and GET as defined in RFC 2616. At this point as we don't have CGI we will not check responses for POST requests.
-\item Your server will need to handle lots of concurrent and pipelined requests: make sure you test with many simultaneous connections.
-\item The server should also handle errors in a sane way. {\bf It should never completely crash} (make it as robust as possible). In testing, try to crash your server by sending malformed and strange requests and fix your server to prevent these crashes.
+\item You are highly encouraged to create a simplified logging module for your project that writes out formatted logs to the log file specified on the command-line; this will help you debug and trace requests that come to your system. {\it Nonetheless we will not require this in grading.} See \href{https://httpd.apache.org/docs/1.3/logs.html\#common}{here} for some examples of how Apache handles logging.
+\item Enhance your server to respond properly to any HTTP 1.1 request and implement persistent connections with HEAD and GET as defined in RFC 2616. At this point as we don't have CGI and so it doesn't make sense to support POST requests -- continue to echo reply to correctly formatted POSTs.
+\item Your server will need to handle lots of concurrent and pipelined requests: make sure you test with many simultaneous connections. Your server should respond to pipelined requests in the order that they were received.
+\item The server should also handle errors in a practical way. {\bf It should never completely crash} (make it as robust as possible). In testing, try to crash your server by sending malformed and strange requests and fix your server to prevent these crashes.
 \item Double check that your server sends the appropriate error messages to malformed requests.
 \item Submission is the same as Checkpoint 1. Tag and upload your repo in a tarball to the corresponding lab on Autolab.
 \end{enumerate}
@@ -25,6 +25,8 @@ In this checkpoint, your web server will reply to client requests as a realy HTT
 
 \subsection{Tips and FAQ}
 \begin{enumerate}
+  \item Do we have to include a Last-Modified field in our responses?\\
+    \textbf{Yes}
     \item Do we have to support Chunking?\\
     \textbf{No}
     %\item For POST, if a Content-Length header is not provided in the request, is it fine to respond with a 411 as specified in the RFC?\\
@@ -36,7 +38,7 @@ In this checkpoint, your web server will reply to client requests as a realy HTT
     \item Should we expect HTTP/1.1 requests to fit in one buffer?\\
     \textbf{No}, do not assume that they always fit inside one buffer. Be prepared to parse across buffer boundaries.
     \item Can I assume that the request always has the Content-length field?\\
-    \textbf{Yes}, assume requests to your server have Content-length if applicable. If it is missing, return a 411 response.
+    \textbf{Yes}, assume requests to your server have Content-length if applicable. If it is missing, return a 400 response.
     \item Since the server will serve static files, are we allowed to use http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types\\
     \textbf{Yes}, You are allowed to use that or a simplified version of it.No need to support all well-known MIME-types, just the most common ones: text/html, text/css, image/png, image/jpeg, image/gif and maybe a few others up to your discretion.
     \item For last-modified field, is there a C library that we can read file
@@ -63,7 +65,7 @@ The breakdown of grading for Checkpoint 2 is below.
     Format&10\%&\vspace{-10pt} 
                               {\it Assigned by human grader:}
                               \begin{packed_itemize}
-                                \item Correct turnin -- Makefile, compilation, properly tagged repo, TA's don't have to edit or search for files (10\%)
+                                \item Correct turnin -- Makefile, compilation, properly tagged repo, TAs don't have to edit or search for files (10\%)
                                 \item Code style (5\%)
                                 \item Code commenting (5\%)
                               \end{packed_itemize}\\
@@ -87,6 +89,7 @@ The breakdown of grading for Checkpoint 2 is below.
                               \begin{packed_itemize}
                                 \item Replies to correctly formatted HEAD requests.
                                 \item Replies to correctly formatted GET requests.
+                                \item Echos in reply to correctly formatted POST requests.
                                 \item Accepts and responds to pipelined requests.
                               \end{packed_itemize}\\
 
