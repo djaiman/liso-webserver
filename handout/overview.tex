@@ -1,8 +1,8 @@
 \label{sec:liso}
 
-In this section, we describe the complete requiresments for the Liso server: what you will turn in at the final checkpoint. 
-To develop Liso, we will provide you with starter code on the course website and in Autolab. 
-Then, in the next three sections (\S\ref{sec:cp1}--\ref{sec:cp3}), we break the project into a development strategy with intermediate checkpoints to turn the starter code into a working server.
+In this section, we give an overview of the the complete requirements for the Liso server: what you will turn in at the final checkpoint. 
+In the next three sections (\S\ref{sec:cp1}--\ref{sec:cp3}), we break the project into a development strategy with intermediate 
+checkpoints.  The starting point for your server is framework code that we will provide on the course website and in Autolab. 
 
 
 \subsection{Supporting HTTP 1.1}
@@ -58,7 +58,7 @@ server using \texttt{select()} to support concurrent connections}. Threads are
 \textbf{NOT} permitted at all for the project. 
 
 \subsection{HTTPS and CGI}
-In Checkpoint 3 you will extend your basic Liso server with support for HTTPS (which encrypts connections to your server) and CGI (which allows your server to support interactive programs).  
+Students enrolled in 15-641 will extend your basic Liso server with support for HTTPS (which encrypts connections to your server) and CGI (which allows your server to support interactive programs) in Checkpoint 3.
 
 \vspace{5pt}
 
@@ -74,7 +74,7 @@ When a client submits a POST to the ASCII art generator, the server will generat
 
 \noindent More details on HTTPS and CGI are in \S\ref{sec:cp3}.
 \subsection{Command Line Arguments}
-\noindent\textbf{Liso will always have 8 arguments. You may not modify Liso to, e.g., take 4 arguments or to reorder the arguments. If you don't need one of the arguments in the earlier checkpoints, you may simply ignore it in your code.}\\
+\noindent\textbf{Liso will always have 8 arguments. You may not modify Liso to, e.g., to take a different number of arguments or to reorder the arguments. If you do not need one of the arguments in the earlier checkpoints, you may simply ignore it in your code.}\\
 
 \textbf{\emph{usage:}} \emph{./lisod $<$HTTP port$>$ $<$HTTPS port$>$
                              $<$log file$>$ $<$lock file$>$ $<$www folder$>$
@@ -108,4 +108,19 @@ When a client submits a POST to the ASCII art generator, the server will generat
 	\item[\textnormal{\emph{certificate file}}] -- certificate file path
 \end{description}
 
+
+\subsection{Tools and Skills}
+The projects in this course are significant larger and more complex
+than the 15-441/641 projects, so you will have to strengthen your
+programming skills.  A big part of that is making good use of of a
+variety of tools, such as {\tt gdb}, {\tt Valgrind}, and others (see
+Section~\ref{sec:impl}.  We
+will review these tools in recitations sessions early on in the semester.
+
+You will also have to develop your own test suite to test and help in
+debugging your code.  While we will give you some tests for each
+checkpoint, these tests will only test some of the features of your
+implementation and they are only a subset of the tests we will use for
+grading.  You are responsible for writing additional tests so you
+cover all the features and requirements listed in this handout.
 

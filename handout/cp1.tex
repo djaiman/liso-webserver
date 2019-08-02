@@ -8,11 +8,13 @@ Otherwise, it will return an HTTP response with 400 as the error code.
 
 \noindent Your server MUST:
 \begin{itemize}
-  \item Correctly identify whether an HTTP HEAD, GET, or POST request is correctly formed  \item Handle multiple clients sending HTTP requests at the same time.
-  \item Use lex and yacc to parse the requests.
+  \item Correctly identify whether an HTTP HEAD, GET, or POST request is correctly formed  
+  \item Handle multiple clients sending HTTP requests at the same time.
+  \item Use {\tt lex} and {\tt yacc} to parse the requests.
   \item Use {\tt select()} to accept incoming data.
   \item Never crash for any error.
 \end{itemize}
+We will review {\tt lex}, {\tt yacc}, and {\tt select} in the recitations.
 
 \subsection{Getting Started}
 \begin{enumerate}
@@ -33,7 +35,11 @@ submission by the deadline and include all needed files as outlined in
     \begin{itemize}
       \item To test `Valid' requests, we will specifically be using requests as formatted by Opera, Firefox, Chrome, or Apache Bench. In industry folks test web services on a tens or even hundreds of combinations of browsers and environments... we'll stick to just these four for this project.
     
-      \item The RFC is long, and there are many tricky points in determining whether or not a request is `Valid'. {\it It is not cheating to discuss what the RFC says.} Clarification about what the RFC requires is absolutely okay discussion!  
+      \item The RFC is long.  Reading an RFC is quite different from reading a news article, mystery novel, or even a technical paper.
+Appendix B.2 has some tips read and use and RFC efficiently.
+
+      \item When reading the RFC, there are many tricky points in determining whether or not a request is `Valid'. 
+          {\it It is not cheating to discuss what the RFC says.} Clarification about what the RFC requires is absolutely okay discussion!  
 
       \item Note that Apache Bench expects a Content-Length: field on every reply -- even error messages. Every valid request we send you will include a Content-Length field.
 
@@ -51,9 +57,10 @@ The breakdown of grading for Checkpoint 1 is below.
 \begin{center}
   \begin{tabular}{>{\centering\arraybackslash}m{1in}>{\centering\arraybackslash}m{1in}p{3in}}
   {\bf Task}&{\bf Weight}&{\bf Subcriteria}\\
+
   \hline
   \addlinespace[5pt]
-    Format&20\%&\vspace{-10pt} 
+    Format& 20\% & \vspace{-10pt} 
                               {\it Assigned by human grader:}
                               \begin{packed_itemize}
                                 \item Correct turnin -- Makefile, compilation, properly tagged repo, TA's don't have to edit or search for files (10\%)
@@ -64,7 +71,7 @@ The breakdown of grading for Checkpoint 1 is below.
   \hline
   \addlinespace[5pt]
 
-    Basics&10\%&\vspace{-10pt} 
+    Basics& 10\% & \vspace{-10pt} 
                               {\it Assigned in AutoLab:}
                               \begin{packed_itemize}
                                 \item Accepts requests
@@ -76,7 +83,7 @@ The breakdown of grading for Checkpoint 1 is below.
   \hline
   \addlinespace[5pt]
 
-  Valid Request Handling&25\%&\vspace{-10pt} 
+  Valid Request Handling& 25\% & \vspace{-10pt} 
                               {\it Assigned in AutoLab:}
                               \begin{packed_itemize}
                                 \item Echoes to valid requests from Opera, Chrome, Firefox, or Apache Bench.
@@ -85,7 +92,7 @@ The breakdown of grading for Checkpoint 1 is below.
   \hline
   \addlinespace[5pt]
 
-  Invalid Request Handling&45\%&\vspace{-10pt} 
+  Invalid Request Handling& 45\% & \vspace{-10pt} 
                               {\it Assigned in AutoLab:}
                               \begin{packed_itemize}
                                   \item Provides error code 400 to requests formatted improperly according to RFC 2616.

@@ -26,33 +26,64 @@
 \title{	15-441/641: Computer Networks\\
 Project 1: A Web Server Called Liso\\
 }
+
+\author{TAs: x <x@andrew.cmu.edu> \\
+y <y@andrew.cmu.edu>}
 \date{}
 
 \maketitle
+
+\begin{center}
+\begin{tabular}{lcc}
+  &  \textbf{15-441}&  \textbf{15-641} \\
+
+  \hline
+  
+  \addlinespace[5pt]
+\textbf{Assigned:} &  \textbf{August 29, 2019}  &  \textbf{August 29, 2019}  \\
+
+  \addlinespace[5pt]
+\textbf{Checkpoint 1 due} & \textbf{September 10, 2019} & \textbf{September 6, 2019} \\
+  
+  \addlinespace[5pt]
+\textbf{Checkpoint 2 due} & \textbf{September 27, 2019} & \textbf{September 20, 2019} \\
+
+  \addlinespace[5pt]
+\textbf{Checkpoint 3 due} & \textbf{-} & \textbf{September 27, 2019} \\
+
+\end{tabular}
+\end{center}
+
+
 
 \section{Introduction}
 \input{introduction}
 
 \begin{center}
 \vspace{10pt}
-\begin{tabular}{cp{2.25in}cc}
-  {\bf Checkpoint}&{\bf Goal}&{\bf \% of Project Grade}&{\bf Deadline}\\
+\begin{tabular}{cp{2.5in}cccc}
+  {\bf CP}&{\bf Goal}&\multicolumn{2}{c}{{\bf \% P1 Grade}}&\multicolumn{2}{c}{{\bf Deadline}}\\
+  & & 441 & 641 & 441 & 641 \\
 
   \hline
   
   \addlinespace[5pt]
-  1&Determine whether an HTTP 1.1 request is valid or invalid&15\%&September 3, 2010\\
+  1&Determine whether an HTTP 1.1 request is valid or invalid. & 25\% & 15\% & Sep 3, 2010 & Sep 3, 2010 \\
   
   \addlinespace[5pt]
-  2&Respond correctly to HTTP 1.1 HEAD and GET requests.&25\%&September 15, 2010\\
+  2&Respond correctly to HTTP 1.1 HEAD and GET requests. & 75\% & 25\% & Sep 15, 2010 & Sep 15, 2010   \\
   
   \addlinespace[5pt]
-  3&Support HTTPS and CGI, run as a daemon, and complete all previous tasks.&60\%&September 21, 2010\\
+  3&Support HTTPS and CGI, run as a daemon, and complete all previous tasks. & - & 60\% & - & Sep 21, 2010\\
 \end{tabular}
 \end{center}
 
-\noindent At each checkpoint (CP), we will assess your server to verify that it implements all of the goals for the current checkpoint and for the previous checkpoints as well. 
-  For this reason, the last checkpoint has the most weight assigned to it -- we will not only test HTTPS and CGI, but we will also test HEAD/GET requests (from CP 2) and error responses (from CP 1).
+\noindent At each checkpoint (CP), we will assess your server to verify that it implements all of the goals for the current checkpoint 
+and we will rerun tests from the previous checkpoint(s) as well. 
+This means that if you fix a bug you had in an earlier checkpoint, you will get partial credit in a later checkpoint.  Of course, if you 
+break a feature that was originally implemented correctly, you will lose some points, so you should return your tests from earlier 
+checkpoints before you submit a later checkpoint.  This is consistent with common industry practice.
+%   For this reason, the last checkpoint has the most weight assigned to it -- we will not only test HTTPS and CGI, but we will also test HEAD/GET requests (from CP 2) and error responses (from CP 1).
 
 \newpage
 \section{The Liso Server}
@@ -71,7 +102,8 @@ Project 1: A Web Server Called Liso\\
 \input{cp3}
 
 \newpage
-\section{Submission and Implementation}
+\section{Implementation and Submission}
+\label{sec:impl}
 \input{impl}
 
 \appendix
