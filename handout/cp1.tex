@@ -4,6 +4,10 @@ Instead of responding to the requests, your Liso server will simply try to ident
 If it is a valid HEAD, GET, or POST request, the server will `echo' the request back to the client.
 Otherwise, it will return an HTTP response with 400 as the error code.
 
+\textbf{Do we really need Opera.  Not clear the students will learn more from 3 browser than 2 (+ Apache Bench).}
+
+
+
 \vspace{5pt}
 
 \noindent Your server MUST:
@@ -11,7 +15,7 @@ Otherwise, it will return an HTTP response with 400 as the error code.
   \item Correctly identify whether an HTTP HEAD, GET, or POST request is correctly formed  
   \item Handle multiple clients sending HTTP requests at the same time.
   \item Use {\tt lex} and {\tt yacc} to parse the requests.
-  \item Use {\tt select()} to accept incoming data.
+  \item Use {\tt select()} to accept incoming data and to handle 100s of sessions in parallel.  Handling pipelined requests is only required in CP2, so may assume that for each session, clients will only send a new request after they have received the response to their previous request from the server.
   \item Never crash for any error.
 \end{itemize}
 We will review {\tt lex}, {\tt yacc}, and {\tt select} in the recitations.

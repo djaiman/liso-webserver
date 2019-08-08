@@ -1,6 +1,6 @@
 \label{sec:cp3}
 In this checkpoint, students enrolled in 15-641 will add support for
-CGI requests for HTTPS, which uses encryption to keep connection
+CGI requests and for HTTPS, which uses encryption to keep connection
 content private from Internet eavesdroppers.  In addition, you will
 `daemonize' your server to allow it to run as a persistent background
 task, and you will double-check all of the requirements from
@@ -16,14 +16,17 @@ Checkpoints 1 and 2 for a final grade.
 \end{itemize}
 
 \subsection{Getting Started}
-We suggest you work on this checkpoint in two phases. In one phase, implement CGI. In another phase, add support for HTTPS. You can do these steps in either order -- just don't try to do both at the same time!
+We suggest you work on this checkpoint in two phases. In one phase, implement CGI. In another phase, add support for HTTPS. You can do these steps in either order -- just don't try to do both at the same time!  The remainder of this section explains the steps involved in completing CP3.  A high-level overview of
+CGI and HTTPS will be presented in the web lecture in the beginning of the semester (before you get to CP3).
+
 
 \subsubsection{Implementing CGI}
+The Common Gateway Interface (CGI) allows a web browser to generate dynamic content for a client, e.g., content that is based on input the client provided.  
+When the web server receives a request using a CGI URI, it will start a new process in which it starts the CGI program and provides it with the client's requests.  
+CGI program then generates the response and returns it to the web server, which returns it to the client.
+We provide instructions for implementing CPI below, but we recommend that you `skim' the CGI RFC~\cite{cgirfc} and the URI RFC~\cite{urirfc} to get 
+the big picture before diving in to your implementation.
 
-  Most of the instructions for this checkpoint are listed below. But, we recommend that you `skim' the CGI RFC~\cite{cgirfc} and the URI RFC~\cite{urirfc} to get the big picture before diving in to your implementation.
-
-The remainder of this section explains the steps involved in completing CP3.  A high-level overview of
-CGI and HTTPS was presented in the web lecture in the beginning of the semester.
 
 \begin{enumerate}
   
@@ -40,7 +43,13 @@ CGI and HTTPS was presented in the web lecture in the beginning of the semester.
 \end{enumerate}
 
 \subsubsection{Implementing HTTPS}
+HTTPS uses the Transport Layer Security (TLS) protocol to secure HTTP sessions.  TLS is a session layer protocol so it sits between the HTTP protocol you are implementing
+and the TCP transport protocol.  TLS ensure the \emph{secrecy} and \emph{integrity} of the data exchanged over the TCP connection, so third parties cannot read or modify 
+the data.  TLS also allows the client to \emph{authenticate} web server, the client knows it is communicating with the right server.  Authentication is based on a 
+\emph{certificate}, a data structure links the server's URL to its public key and is signed by a Certificate Authority (CA).  To support HTTPS, your web server 
+needs to use the OpenSSL library instead of the socket API, and the person responsible for the web server (that means you) needs to obtain a URL and a signed certificate.
 
+Please follow the following instructions to implement HTTPS:
 \begin{enumerate}
 \item Create a DNS hostname for yourself with a free account at No-IP \cite{WWW:no-ip} (or use a domain name you already have...)
 \item In order to test your HTTPS implementation, we need to monitor your (encrypted!) HTTPS traffic.  To allow this, add the 15-441 Carnegie Mellon University Root CA to your browser (import certificate, usually somewhere in preferences)
