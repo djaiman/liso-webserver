@@ -109,13 +109,28 @@ When a client submits a POST to the ASCII art generator, the server will generat
 \end{description}
 
 
-\subsection{Tools and Skills}
+\subsection{Tools, Skills, and Grading}
 The projects in this course are significant larger and more complex
-than the 15-441/641 projects, so you will have to strengthen your
-programming skills.  A big part of that is making good use of of a
-variety of tools, such as {\tt gdb}, {\tt Valgrind}, and others (see
-Section~\ref{sec:impl}.  We
-will review these tools in recitations sessions early on in the semester.
+than the 15-213/513 projects.  They are also more open-ended, in the
+sense that we only specify \emph{what} the system must do, but not
+\emph{how} you do it.  For example, a web server needs to perform several 
+functions, e.g., managing sessions, using the file system, generating
+responses including error messages, etc.  You are responsible for the 
+design: what modules you have, the data structures they use, and how they
+interaction.
+
+You will also have to strengthen your programming skills.  A big part
+of that is making good use of of a variety of tools, such as {\tt
+gdb}, {\tt Valgrind}, and others (see Section~\ref{sec:impl}.  We will
+review these tools in recitations sessions early on in the semester.
+One important skill is debugging.  You should first try to debug code
+yourself (using the above tools) but if you have problems, you 
+use the office hours of not only the lead TA but also the
+other TAs to get help.  Note that the TAs are not allowed to debug
+your code for you. Specifically, they will only look at your code for
+a limited time (up to 10 minutes; leaving them time to help other
+students) and they will not modify your code (they cannot touch the
+keyboard).
 
 You will also have to develop your own test suite to test and help in
 debugging your code.  While we will give you some tests for each
@@ -123,4 +138,5 @@ checkpoint, these tests will only test some of the features of your
 implementation and they are only a subset of the tests we will use for
 grading.  You are responsible for writing additional tests so you
 cover all the features and requirements listed in this handout.
+
 
